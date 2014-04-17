@@ -12,6 +12,8 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
   </References>
   <Files>
     <Compile Include="Actions.cs" />
@@ -58,7 +60,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ProjectReader\LineariseProject.xslt" />
     <EmbeddedResource Include="ProjectReader\WashNamespaces.xslt" />
-    <None Include="BuildResources\GenerateProject.xslt" />
+    <None Include="app.config" />
+    <None Include="BuildResources\GenerateProject.xslt">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="BuildResources\GenerateSolution.xslt" />
     <None Include="BuildResources\JSILTemplate.htm" />
   </Files>

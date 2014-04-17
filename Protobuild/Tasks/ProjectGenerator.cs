@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -480,18 +481,7 @@ namespace Protobuild.Tasks
                 var version = package.Attributes["version"].Value;
                 var targetFramework = (package.Attributes["targetFramework"] != null ? package.Attributes["targetFramework"].Value : null) ?? "";
 
-                var packagePath = Path.Combine(
-                    this.m_RootPath,
-                    "packages",
-                    id + "." + version,
-                    id + "." + version + ".nuspec");
-
-                // Verify the file exists before attempting to load it.
-                if (!File.Exists(packagePath))
-                    throw new FileNotFoundException("Unable to find NuGet Package", packagePath);
-
-                var packageDoc = new XmlDocument();
-                packageDoc.Load(packagePath);
+                var packageDoc = OpenNugetSpecification(id, version);
 
                 // If the references are explicitly provided in the nuspec, use
                 // those as to what files should be referenced by the projects.
@@ -644,6 +634,57 @@ namespace Protobuild.Tasks
 
 
             }
+        }
+
+        private XmlDocument OpenNugetSpecification(string id, string version)
+        {
+            var packName = id + "." + version;
+
+            var specPath = Path.Combine(
+                this.m_RootPath,
+                "packages",
+                packName,
+                packName + ".nuspec");
+            var packPath = Path.Combine(
+                this.m_RootPath,
+                "packages",
+                packName,
+                packName + ".nupkg");
+
+            // Verify the file exists before attempting to load it.
+            if (!File.Exists(specPath) && !File.Exists(packPath))
+                throw new FileNotFoundException("Unable to find NuGet Package", specPath);
+
+            Stream fileStream = null;
+            ZipArchive zipFile = null;
+            try
+            {
+                if (File.Exists(specPath))
+                {
+                    fileStream = File.OpenRead(specPath);
+                }
+                else
+                {
+                    zipFile = ZipFile.OpenRead(packPath);
+                    var specFile = zipFile.Entries.FirstOrDefault(q => q.Name == id + ".nuspec");
+                    if(specFile == null)
+                        throw new FileNotFoundException("Unable to find NuGet Package", specPath);
+
+                    fileStream = specFile.Open();
+                }
+                var packageDoc = new XmlDocument();
+                packageDoc.Load(fileStream);
+                return packageDoc;
+            }
+            finally 
+            {
+                if(fileStream != null)
+                    fileStream.Dispose();
+                if(zipFile != null)
+                    zipFile.Dispose();
+            }
+
+           
         }
 
         private XmlDocument GenerateContentProject(XmlDocument source, string rootPath)

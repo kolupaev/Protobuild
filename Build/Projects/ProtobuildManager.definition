@@ -36,5 +36,6 @@
     <EmbeddedResource Include="Images\link_go.png" />
     <EmbeddedResource Include="Images\page_white_gear.png" />
     <EmbeddedResource Include="Images\world.png" />
+    <None Include="app.config" />
   </Files>
 </Project>
