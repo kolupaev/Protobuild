@@ -82,8 +82,8 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Dialog" id="Protobuild.CreateProjectDialog" design-size="400 105">
-    <property name="MemberName" />
+  <widget class="Gtk.Dialog" id="Protobuild.CreateProjectDialog" design-size="400 154">
+    <property name="MemberName">c_forceExistingDirectory</property>
     <property name="WindowPosition">CenterOnParent</property>
     <property name="Buttons">2</property>
     <property name="HelpButton">False</property>
@@ -111,6 +111,9 @@
               </packing>
             </child>
             <child>
+              <placeholder />
+            </child>
+            <child>
               <widget class="Gtk.Entry" id="c_ProjectNameEntry">
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
@@ -118,7 +121,7 @@
                 <property name="InvisibleChar">●</property>
               </widget>
               <packing>
-                <property name="Position">1</property>
+                <property name="Position">2</property>
                 <property name="AutoSize">True</property>
                 <property name="Expand">False</property>
                 <property name="Fill">False</property>
@@ -127,6 +130,21 @@
           </widget>
           <packing>
             <property name="Position">0</property>
+            <property name="AutoSize">True</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.CheckButton" id="c_forceExistingDirectory">
+            <property name="MemberName" />
+            <property name="CanFocus">True</property>
+            <property name="Label" translatable="yes">Force existing directory</property>
+            <property name="Active">True</property>
+            <property name="DrawIndicator">True</property>
+            <property name="HasLabel">True</property>
+            <property name="UseUnderline">True</property>
+          </widget>
+          <packing>
+            <property name="Position">1</property>
             <property name="AutoSize">True</property>
             <property name="Expand">False</property>
             <property name="Fill">False</property>

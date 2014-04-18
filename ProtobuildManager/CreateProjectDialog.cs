@@ -32,6 +32,11 @@ namespace Protobuild
         {
             get { return this.c_ProjectNameEntry.Text; }
         }
+
+		public bool ForceExistingDirectory
+		{
+			get { return this.c_forceExistingDirectory.Active; }
+		}
     }
 }
 

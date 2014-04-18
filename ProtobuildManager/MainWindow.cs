@@ -104,7 +104,7 @@ public partial class MainWindow: Gtk.Window
         if ((ResponseType)create.Run() == ResponseType.Ok)
         {
             string error;
-            if (!this.CreateProject(create.ProjectName, type, out error))
+            if (!this.CreateProject(create.ProjectName, type, out error, create.ForceExistingDirectory))
             {
                 var errorDialog = new MessageDialog(
                     this,
